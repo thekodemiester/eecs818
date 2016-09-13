@@ -10,8 +10,9 @@ public class ObjectOriented
 		
 		try 
 		{
-			ReadFile file = new ReadFile(fileName);
+			TextFileReader file = new TextFileReader( fileName );
 			String[] allLines = file.Read();
+			
 			Vector<String> shiftedLines = new Vector<String>(1,1); 
 			for( int i = 0; i < allLines.length; i++ )
 			{
@@ -23,7 +24,7 @@ public class ObjectOriented
 				}
 			}
 			
-			Sorter aSorter = new Sorter( shiftedLines );
+			VectoredStringSorter aSorter = new VectoredStringSorter( shiftedLines );
 			shiftedLines = aSorter.doSort();
 			
 			for( int i = 0; i < shiftedLines.size(); i++) 
