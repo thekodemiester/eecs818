@@ -17,7 +17,7 @@ public class Traditional
 {	
 	public static void main(String[] s)
 	{
-		String fileName = "../text.txt";
+		String fileName = "../../text.txt";
 		
 		try 
 		{

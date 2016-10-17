@@ -6,7 +6,7 @@ public class ObjectOriented
 
 	public static void main(String[] args) 
 	{
-		String fileName = "../text.txt";
+		String fileName = "../../text.txt";
 		
 		try 
 		{

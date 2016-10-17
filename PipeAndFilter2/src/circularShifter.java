@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Comparator;
@@ -14,42 +13,52 @@ class IgnoreCaseComparator implements Comparator<String>
 	  }
 }
 
-public class permuntationFinder
+public class circularShifter
 {	
 	public static void main(String[] s)
 	{
 		BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
-		String inputText = null;
+		String inputString = null;
 		
-		inputText = inputReader.readLine();
+		try 
+		{
+			inputString = inputReader.readLine();
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 		
-		String allLinePermuntations = findAllLinePermuntations( inputText );
+		String allLinePermuntations = findAllLinePermuntations( inputString );
 		
-		Vector<String> sortedStrings = sortListInAlphabeticalOrder( allLinePermuntations );
-		
-		OutputVectorOfStringsToConsole ( sortedStrings );	
+		System.out.println( allLinePermuntations );	
 	}
 	
 	static private String findAllLinePermuntations( String linesOfText )
 	{
-		String shiftedLines = null;
-		
+		String linePermuntations = "";
 		while( linesOfText != null )
 		{
-			int endIndex = linesOfText.indexOf("/n");
+			int endIndex = linesOfText.indexOf('&');
 			String subString = linesOfText.substring(0, endIndex);
-			linesOfText = linesOfText.substring(endIndex + 1, linesOfText.length());
 			String shifted = doShift( subString );
-			shiftedLines += shifted + "/n";
+			linePermuntations += ( shifted );
+			if( endIndex > 0 && endIndex != linesOfText.length() - 1 )
+			{
+				linesOfText = linesOfText.substring(endIndex + 1, linesOfText.length());
+			}
+			else
+			{
+				linesOfText = null;
+			}
 		}
 				
-		return shiftedLines; 
+		return linePermuntations; 
 	}
 	
 	static private String doShift( String aString )
 	{	
 		int numberOfWords = countWords( aString );
-		String allPermuntations = null;
+		String allPermuntations = "";
 		
 		for( int i = 0; i < numberOfWords; i++ )
 		{
@@ -57,7 +66,7 @@ public class permuntationFinder
 			String subStringFirst = aString.substring( 0 , index);
 			String subStringSecond = aString.substring( index + 1 );
 			aString = subStringSecond + " " + subStringFirst; 
-			allPermuntations[i] = aString; 
+			allPermuntations += aString + "&"; 
 		}
 		return allPermuntations; 
 	}
@@ -86,26 +95,5 @@ public class permuntationFinder
 	        }
 	    }
 	    return wordCount;
-	}
-	
-	static private Vector<String> sortListInAlphabeticalOrder( Vector<String> aList )
-	{
-		Vector<String> listToSort = aList; 
-		
-		IgnoreCaseComparator comparator = new IgnoreCaseComparator();
-
-	    listToSort.sort(comparator);
-	    
-	    return listToSort; 
-	    
-	    
-	}
-	
-	static private void OutputVectorOfStringsToConsole( Vector<String> aList )
-	{
-		for( int i = 0; i < aList.size(); i++) 
-		{
-			System.out.println( aList.get(i));
-		}		
 	}
 }
