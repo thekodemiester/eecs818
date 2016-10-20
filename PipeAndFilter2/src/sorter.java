@@ -1,9 +1,21 @@
+/*********************************************************
+ * EECS 818: Software Architecture
+ * Professor Hossein Saiedian
+ * Fall 2016
+ * 
+ * 
+ * Cody Ronning; Brian Turrel; Michael Chatman; 
+ * Apoorva Srivastava; Ben Underwood
+ * 
+ * Architecture Style: Pipe and Filter
+ * sorter.java
+ ********************************************************/
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.Vector;
-
 
 class IgnoreCaseComparator implements Comparator<String> 
 {

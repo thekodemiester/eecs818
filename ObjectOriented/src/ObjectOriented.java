@@ -1,3 +1,16 @@
+/*********************************************************
+ * EECS 818: Software Architecture
+ * Professor Hossein Saiedian
+ * Fall 2016
+ * 
+ * 
+ * Cody Ronning; Brian Turrel; Michael Chatman; 
+ * Apoorva Srivastava; Ben Underwood
+ * 
+ * Architecture Style: Object-Oriented Call-and-Return
+ * ObjectOriented.java
+ ********************************************************/
+
 import java.io.IOException;
 import java.util.Vector;
 
@@ -6,7 +19,7 @@ public class ObjectOriented
 
 	public static void main(String[] args) 
 	{
-		String fileName = "../../text.txt";
+		String fileName = "../text.txt";
 		
 		try 
 		{

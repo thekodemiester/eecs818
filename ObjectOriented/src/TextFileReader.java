@@ -1,3 +1,16 @@
+/*********************************************************
+ * EECS 818: Software Architecture
+ * Professor Hossein Saiedian
+ * Fall 2016
+ * 
+ * 
+ * Cody Ronning; Brian Turrel; Michael Chatman; 
+ * Apoorva Srivastava; Ben Underwood
+ * 
+ * Architecture Style: Object-Oriented Call-and-Return
+ * TextFileReader.java
+ ********************************************************/
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

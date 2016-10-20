@@ -1,9 +1,21 @@
+/*********************************************************
+ * EECS 818: Software Architecture
+ * Professor Hossein Saiedian
+ * Fall 2016
+ * 
+ * 
+ * Cody Ronning; Brian Turrel; Michael Chatman; 
+ * Apoorva Srivastava; Ben Underwood
+ * 
+ * Architecture Style: Traditional Call and Return
+ * Traditional.java
+ ********************************************************/
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Vector;
-
 
 class IgnoreCaseComparator implements Comparator<String> 
 {
@@ -17,7 +29,7 @@ public class Traditional
 {	
 	public static void main(String[] s)
 	{
-		String fileName = "../../text.txt";
+		String fileName = "../text.txt";
 		
 		try 
 		{

@@ -33,7 +33,7 @@ public class PipeAndFilter
 	
 	private static String getInputFile()
 	{
-		String file = "../../text.txt";
+		String file = "../text.txt";
 		
 		return file; 
 	}

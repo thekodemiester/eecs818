@@ -1,3 +1,16 @@
+/*********************************************************
+ * EECS 818: Software Architecture
+ * Professor Hossein Saiedian
+ * Fall 2016
+ * 
+ * 
+ * Cody Ronning; Brian Turrel; Michael Chatman; 
+ * Apoorva Srivastava; Ben Underwood
+ * 
+ * Architecture Style: Pipe and Filter
+ * output.java
+ ********************************************************/
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
