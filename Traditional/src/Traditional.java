@@ -17,21 +17,28 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.Vector;
 
-class IgnoreCaseComparator implements Comparator<String> 
-{
-	  public int compare(String strA, String strB) 
-	  {
-	    return strA.compareToIgnoreCase(strB);
-	  }
-}
 
 public class Traditional
 {	
 	public static void main(String[] s)
 	{
-		String fileName = "../text.txt";
-		
 		try 
+		{	
+			String fileName = "../text.txt";
+			String[] textData = readFile(fileName);
+			Vector<String> shiftedLines = shiftLines(textData);
+			Vector<String> sortedLines = sortLines(shiftedLines);
+			writeOutput(sortedLines);
+		}
+		catch (Exception e)
+		{
+			System.out.println( e.getMessage() );
+		}
+	}
+	
+	static private String[] readFile( String fileName )
+	{
+		try
 		{
 			FileReader fileReaderCounter = new FileReader( fileName );
 			BufferedReader textCounter = new BufferedReader( fileReaderCounter );
@@ -52,66 +59,62 @@ public class Traditional
 			}
 			
 			textReader.close();
-			
-			Vector<String> shiftedLines = new Vector<String>(1,1); 
-			for( int i = 0; i < textData.length; i++ )
-			{
-				String[] shifted = doShift( textData[i] );
-				for( int j = 0; j < shifted.length - 1; j++ )
-				{
-					shiftedLines.add( shifted[j] );
-				}
-			}
-			
-			IgnoreCaseComparator comparator = new IgnoreCaseComparator();
-
-		    shiftedLines.sort(comparator);
-			
-			
-			for( int i = 0; i < shiftedLines.size(); i++) 
-			{
-				System.out.println( shiftedLines.get(i));
-			}
+			return textData;
 		}
 		catch (IOException e)
 		{
 			System.out.println( e.getMessage() );
+			return new String[0];
 		}
+	}
+	
+	static private Vector<String> shiftLines( String[] inStringArray )
+	{
+		Vector<String> shiftedLines = new Vector<String>(1,1); 
+		for( int line = 0; line < inStringArray.length; line++ )
+		{
+			String[] shifted = doShift( inStringArray[line] );
+			for( int word = 0; word < shifted.length - 1; word++ )
+			{
+				shiftedLines.add( shifted[word] );
+			}
+		}
+		return shiftedLines;
 	}
 	
 	static private String[] doShift( String aString )
 	{	
 		int numberOfWords = countWords( aString );
-		String[] allPermuntations = new String[numberOfWords + 1];
+		String[] allPermutations = new String[numberOfWords + 1];
 		
-		for( int i = 0; i < numberOfWords; i++ )
+		for( int word = 0; word < numberOfWords; word++ )
 		{
 			int index = aString.indexOf(' ');
 			String subStringFirst = aString.substring( 0 , index);
 			String subStringSecond = aString.substring( index + 1 );
 			aString = subStringSecond + " " + subStringFirst; 
-			allPermuntations[i] = aString; 
+			allPermutations[word] = aString; 
 		}
-		return allPermuntations; 
+		return allPermutations; 
 	}
 	
 	static private int countWords(String aString)
 	{
 	    int wordCount = 0;
 
-	    boolean word = false;
+	    boolean isWord = false;
 	    int stringLength = aString.length() - 1;
 
 	    for (int i = 0; i < aString.length(); i++) 
 	    {
 	        if ( Character.isLetter(aString.charAt(i)) && i != stringLength ) 
 	        {
-	            word = true;
+	        	isWord = true;
 	        } 
-	        else if ( !Character.isLetter(aString.charAt(i)) && word ) 
+	        else if ( !Character.isLetter(aString.charAt(i)) && isWord ) 
 	        {
 	            wordCount++;
-	            word = false;
+	            isWord = false;
 	        }
 	        else if ( Character.isLetter(aString.charAt(i)) && i == stringLength )
 	        {
@@ -120,4 +123,27 @@ public class Traditional
 	    }
 	    return wordCount;
 	}
+	
+	static private Vector<String> sortLines( Vector<String> shiftedLines)
+	{
+		IgnoreCaseComparator comparator = new IgnoreCaseComparator();
+	    shiftedLines.sort(comparator);
+	    return shiftedLines;
+	}
+	
+	static private void writeOutput( Vector<String> sortedLines)
+	{
+		for( int i = 0; i < sortedLines.size(); i++) 
+		{
+			System.out.println( sortedLines.get(i));
+		}
+	}
+}
+
+class IgnoreCaseComparator implements Comparator<String> 
+{
+	  public int compare(String strA, String strB) 
+	  {
+	    return strA.compareToIgnoreCase(strB);
+	  }
 }
