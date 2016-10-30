@@ -33,6 +33,7 @@ public class Traditional
 				Vector<String> sortedLines = sortLines(shiftedLines);
 				writeOutput(sortedLines);
 			}
+			writeConfirmation();
 		}
 		catch (Exception e)
 		{
@@ -117,7 +118,10 @@ public class Traditional
 				temp = temp.replaceAll("  ", "");
 				temp = temp.trim(); 
 			}
-			cleanedLines.add(temp);
+			if (temp != "")
+			{
+				cleanedLines.add(temp);
+			}
 		}
 		return cleanedLines;
 	}
@@ -210,6 +214,12 @@ public class Traditional
 		{
 			System.out.println( sortedLines.get(i));
 		}
+	}
+	
+	static private void writeConfirmation()
+	{
+		System.out.println("");
+		System.out.println("Thank you for using the KWIC Program");
 	}
 }
 
