@@ -23,16 +23,24 @@ public class CircularShift
 	{	
 		int numberOfWords = countWords( mInput );
 		String[] allPermuntations = new String[numberOfWords + 1];
-		
-		for( int i = 0; i < numberOfWords; i++ )
+		if( numberOfWords > 1 )
 		{
-			int index = mInput.indexOf(' ');
-			String subStringFirst = mInput.substring( 0 , index);
-			String subStringSecond = mInput.substring( index + 1 );
-			mInput = subStringSecond + " " + subStringFirst; 
-			allPermuntations[i] = mInput; 
+			for( int i = 0; i < numberOfWords; i++ )
+			{
+				int index = mInput.indexOf(' ');
+				String subStringFirst = mInput.substring( 0 , index);
+				String subStringSecond = mInput.substring( index + 1 );
+				mInput = subStringSecond + " " + subStringFirst; 
+				allPermuntations[i] = mInput; 
+			}
+			return allPermuntations; 
 		}
-		return allPermuntations; 
+		else
+		{
+			String[] onlyOneWord = new String[numberOfWords];
+			onlyOneWord[0] = mInput;
+			return onlyOneWord;
+		}
 	}
 	
 	private int countWords(String aString)
