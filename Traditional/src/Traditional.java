@@ -12,23 +12,89 @@
  ********************************************************/
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.Vector;
 
 
 public class Traditional
 {	
+	static Vector<String> blackListedWords = new Vector<String>(1,1);
+	
 	public static void main(String[] s)
 	{
 		try 
 		{	
-			String fileName = "../text.txt";
-			String[] textData = readFile(fileName);
-			Vector<String> shiftedLines = shiftLines(textData);
-			Vector<String> sortedLines = sortLines(shiftedLines);
-			writeOutput(sortedLines);
+			BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
+			String inputString = null;
+			boolean continueRunning = true; 
+			Vector<String> allLines = new Vector<String>(1,1);
+			
+			blackListedWords.add("a");
+			blackListedWords.add("A");
+			blackListedWords.add("An");
+			blackListedWords.add("an");
+			blackListedWords.add("as");
+			blackListedWords.add("As");
+			blackListedWords.add("and");
+			blackListedWords.add("And");
+			blackListedWords.add("the");
+			blackListedWords.add("The");
+			
+			
+			try 
+			{
+				System.out.println("KWIC Traditional Program" );
+				System.out.println("Make selection");
+				while (continueRunning)
+				{
+					System.out.println("A: for add line");
+					System.out.println("D: for display current output");
+					System.out.println("Q: Quit program");
+					inputString = inputReader.readLine();
+					switch (inputString)
+						{
+						case "a":
+						case "A":
+							// Add input String
+							System.out.println("Input text: ");
+							String inputText = inputReader.readLine(); 
+							allLines.add( inputText );
+							break;
+						case "d":
+						case "D":
+							// Display current output and continue
+							System.out.println("All lines: ");
+							Vector<String> cleanedLines = cleanLines(allLines);
+							if( (cleanedLines.size() > 1) || !cleanedLines.elementAt(0).isEmpty() )
+							{
+								Vector<String> shiftedLines = shiftLines(cleanedLines);
+								Vector<String> sortedLines = sortLines(shiftedLines);
+								writeOutput(sortedLines);
+							}
+							else
+							{
+								System.out.println("Input only contained trivial words");
+							}
+							break;
+						case "q":
+						case "Q":
+							// Quit the program
+							System.out.println("Thank you for using the KWIC Program");
+							continueRunning = false; 
+							break;
+						default: 
+							System.out.println("Invalid entry try again");
+						}
+				} 			
+				
+			} catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+			
+			
 		}
 		catch (Exception e)
 		{
@@ -36,66 +102,80 @@ public class Traditional
 		}
 	}
 	
-	static private String[] readFile( String fileName )
-	{
-		try
-		{
-			FileReader fileReaderCounter = new FileReader( fileName );
-			BufferedReader textCounter = new BufferedReader( fileReaderCounter );
-			
-			int numberOfLines = 0; 
-			while( ( textCounter.readLine() ) != null )
-			{
-				numberOfLines++; 
-			}
-			textCounter.close();
-			
-			FileReader fileReader = new FileReader( fileName );
-			BufferedReader textReader = new BufferedReader( fileReader );
-			String[] textData = new String[numberOfLines];
-			for( int i = 0; i < numberOfLines; i++ )
-			{
-				textData[i] = textReader.readLine();
-			}
-			
-			textReader.close();
-			return textData;
-		}
-		catch (IOException e)
-		{
-			System.out.println( e.getMessage() );
-			return new String[0];
-		}
-	}
-	
-	static private Vector<String> shiftLines( String[] inStringArray )
+	static private Vector<String> shiftLines( Vector<String> inStringArray )
 	{
 		Vector<String> shiftedLines = new Vector<String>(1,1); 
-		for( int line = 0; line < inStringArray.length; line++ )
+		for( int line = 0; line < inStringArray.size(); line++ )
 		{
-			String[] shifted = doShift( inStringArray[line] );
-			for( int word = 0; word < shifted.length - 1; word++ )
+			if( !inStringArray.elementAt(line).isEmpty() )
 			{
-				shiftedLines.add( shifted[word] );
+				String[] shifted = doShift( inStringArray.elementAt(line) );
+				if( shifted.length > 1)
+				{
+					for( int word = 0; word < shifted.length - 1; word++ )
+					{
+						shiftedLines.add( shifted[word] );
+					}
+				}
+				else
+				{
+					shiftedLines.add( shifted[0] );
+				}
 			}
 		}
 		return shiftedLines;
 	}
 	
+	static private Vector<String> cleanLines( Vector<String> inStringArray )
+	{
+		Vector<String> cleanedLines = new Vector<String>(1,1); 
+		for( int line = 0; line < inStringArray.size(); line++ )
+		{
+			String temp = null; 
+			for( int word = 0; word < blackListedWords.size(); word++ )
+			{
+				String stringToClean = null; 
+				if( temp == null)
+				{
+				    stringToClean = inStringArray.elementAt(line);
+				}
+				else
+				{
+					stringToClean = temp;
+				}
+				String test = blackListedWords.elementAt(word);
+				temp = stringToClean.replaceAll("\\b"+test+"\\b", "");
+				temp = temp.replaceAll("  ", "");
+				temp = temp.trim(); 
+			}
+			cleanedLines.add(temp);
+		}
+		return cleanedLines;
+	}
+	
 	static private String[] doShift( String aString )
 	{	
 		int numberOfWords = countWords( aString );
-		String[] allPermutations = new String[numberOfWords + 1];
-		
-		for( int word = 0; word < numberOfWords; word++ )
+		if( numberOfWords > 1 )
 		{
-			int index = aString.indexOf(' ');
-			String subStringFirst = aString.substring( 0 , index);
-			String subStringSecond = aString.substring( index + 1 );
-			aString = subStringSecond + " " + subStringFirst; 
-			allPermutations[word] = aString; 
+			String[] allPermutations = new String[numberOfWords + 1];
+			
+			for( int word = 0; word < numberOfWords; word++ )
+			{
+				int index = aString.indexOf(' ');
+				String subStringFirst = aString.substring( 0 , index);
+				String subStringSecond = aString.substring( index + 1 );
+				aString = subStringSecond + " " + subStringFirst; 
+				allPermutations[word] = aString; 
+			}
+			return allPermutations; 
 		}
-		return allPermutations; 
+		else
+		{
+			String[] onlyOneWord = new String[numberOfWords];
+			onlyOneWord[0] = aString;
+			return onlyOneWord;
+		}
 	}
 	
 	static private int countWords(String aString)
