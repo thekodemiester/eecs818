@@ -59,6 +59,7 @@ public class Traditional
 
 		try 
 		{
+			System.out.println("");
 			System.out.println("KWIC Traditional Program" );
 			System.out.println("Make selection");
 			while (true)
@@ -184,16 +185,16 @@ public class Traditional
 
 	    for (int i = 0; i < aString.length(); i++) 
 	    {
-	        if ( Character.isLetter(aString.charAt(i)) && i != stringLength ) 
+	        if ( !aString.substring(i, i+1).equals(" ") && i != stringLength ) 
 	        {
 	        	isWord = true;
 	        } 
-	        else if ( !Character.isLetter(aString.charAt(i)) && isWord ) 
+	        else if ( aString.substring(i, i+1).equals(" ") && isWord ) 
 	        {
 	            wordCount++;
 	            isWord = false;
 	        }
-	        else if ( Character.isLetter(aString.charAt(i)) && i == stringLength )
+	        else if ( !aString.substring(i, i+1).equals(" ") && i == stringLength )
 	        {
 	            wordCount++;
 	        }
@@ -210,6 +211,7 @@ public class Traditional
 	
 	static private void writeOutput( Vector<String> sortedLines)
 	{
+		System.out.println("");
 		for( int i = 0; i < sortedLines.size(); i++) 
 		{
 			System.out.println( sortedLines.get(i));
