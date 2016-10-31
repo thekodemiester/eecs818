@@ -185,19 +185,6 @@ public class Traditional
 
 	    for (int i = 0; i < aString.length(); i++) 
 	    {
-//	        if ( Character.isLetter(aString.charAt(i)) && i != stringLength ) 
-//	        {
-//	        	isWord = true;
-//	        } 
-//	        else if ( !Character.isLetter(aString.charAt(i)) && isWord ) 
-//	        {
-//	            wordCount++;
-//	            isWord = false;
-//	        }
-//	        else if ( Character.isLetter(aString.charAt(i)) && i == stringLength )
-//	        {
-//	            wordCount++;
-//	        }
 	        if ( !aString.substring(i, i+1).equals(" ") && i != stringLength ) 
 	        {
 	        	isWord = true;
