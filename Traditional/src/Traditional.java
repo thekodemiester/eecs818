@@ -115,7 +115,7 @@ public class Traditional
 				}
 				String test = wordsToRemove.elementAt(word);
 				temp = stringToClean.replaceAll("(?i)\\b"+test+"\\b", "");
-				temp = temp.replaceAll("  ", "");
+				temp = temp.replaceAll("  ", " ");
 				temp = temp.trim(); 
 			}
 			if (temp != "")
