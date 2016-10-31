@@ -17,89 +17,113 @@ import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.Vector;
 
-
 public class Traditional
 {	
-	static Vector<String> blackListedWords = new Vector<String>(1,1);
 	
 	public static void main(String[] s)
 	{
 		try 
 		{	
-			BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
-			String inputString = null;
-			boolean continueRunning = true; 
-			Vector<String> allLines = new Vector<String>(1,1);
-			
-			blackListedWords.add("a");
-			blackListedWords.add("A");
-			blackListedWords.add("An");
-			blackListedWords.add("an");
-			blackListedWords.add("as");
-			blackListedWords.add("As");
-			blackListedWords.add("and");
-			blackListedWords.add("And");
-			blackListedWords.add("the");
-			blackListedWords.add("The");
-			
-			
-			try 
+			Vector<String> trivialWords = defineTrivialWords();
+			Vector<String> inputLines = new Vector<String>(1,1);
+			if (obtainInput(inputLines))
 			{
-				System.out.println("KWIC Traditional Program" );
-				System.out.println("Make selection");
-				while (continueRunning)
-				{
-					System.out.println("A: for add line");
-					System.out.println("D: for display current output");
-					System.out.println("Q: Quit program");
-					inputString = inputReader.readLine();
-					switch (inputString)
-						{
-						case "a":
-						case "A":
-							// Add input String
-							System.out.println("Input text: ");
-							String inputText = inputReader.readLine(); 
-							allLines.add( inputText );
-							break;
-						case "d":
-						case "D":
-							// Display current output and continue
-							System.out.println("All lines: ");
-							Vector<String> cleanedLines = cleanLines(allLines);
-							if( (cleanedLines.size() > 1) || !cleanedLines.elementAt(0).isEmpty() )
-							{
-								Vector<String> shiftedLines = shiftLines(cleanedLines);
-								Vector<String> sortedLines = sortLines(shiftedLines);
-								writeOutput(sortedLines);
-							}
-							else
-							{
-								System.out.println("Input only contained trivial words");
-							}
-							break;
-						case "q":
-						case "Q":
-							// Quit the program
-							System.out.println("Thank you for using the KWIC Program");
-							continueRunning = false; 
-							break;
-						default: 
-							System.out.println("Invalid entry try again");
-						}
-				} 			
-				
-			} catch (IOException e) 
-			{
-				e.printStackTrace();
+				Vector<String> cleanedLines = cleanLines(inputLines, trivialWords);
+				Vector<String> shiftedLines = shiftLines(cleanedLines);
+				Vector<String> sortedLines = sortLines(shiftedLines);
+				writeOutput(sortedLines);
 			}
-			
-			
+			writeConfirmation();
 		}
 		catch (Exception e)
 		{
 			System.out.println( e.getMessage() );
 		}
+	}
+	
+	static private Vector<String> defineTrivialWords()
+	{
+		Vector<String> trivialWords = new Vector<String>(1,1);
+		trivialWords.add("a");
+		trivialWords.add("an");
+		trivialWords.add("as");
+		trivialWords.add("and");
+		trivialWords.add("the");
+		return trivialWords;
+	}
+	
+	static private boolean obtainInput(Vector<String> inputStringVector)
+	{
+		BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
+		String inputString = null;
+
+		try 
+		{
+			System.out.println("KWIC Traditional Program" );
+			System.out.println("Make selection");
+			while (true)
+			{
+				System.out.println("A: for add line");
+				System.out.println("D: for display current output");
+				System.out.println("Q: Quit program");
+				inputString = inputReader.readLine();
+				switch (inputString)
+					{
+					case "a":
+					case "A":
+						// Add input String
+						System.out.println("Input text: ");
+						String inputText = inputReader.readLine(); 
+						inputStringVector.add(inputText);
+						break;
+					case "d":
+					case "D":
+						// return to main and process
+						return true;
+					case "q":
+					case "Q":
+						// return to main and quit
+						return false;
+					default: 
+						System.out.println("Invalid entry try again");
+					}
+			} 			
+			
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	static private Vector<String> cleanLines( Vector<String> inStringArray, Vector<String> wordsToRemove )
+	{
+		Vector<String> cleanedLines = new Vector<String>(1,1); 
+		for( int line = 0; line < inStringArray.size(); line++ )
+		{
+			String temp = null; 
+			for( int word = 0; word < wordsToRemove.size(); word++ )
+			{
+				String stringToClean = null; 
+				if( temp == null)
+				{
+				    stringToClean = inStringArray.elementAt(line);
+				}
+				else
+				{
+					stringToClean = temp;
+				}
+				String test = wordsToRemove.elementAt(word);
+				temp = stringToClean.replaceAll("(?i)\\b"+test+"\\b", "");
+				temp = temp.replaceAll("  ", "");
+				temp = temp.trim(); 
+			}
+			if (temp != "")
+			{
+				cleanedLines.add(temp);
+			}
+		}
+		return cleanedLines;
 	}
 	
 	static private Vector<String> shiftLines( Vector<String> inStringArray )
@@ -124,33 +148,6 @@ public class Traditional
 			}
 		}
 		return shiftedLines;
-	}
-	
-	static private Vector<String> cleanLines( Vector<String> inStringArray )
-	{
-		Vector<String> cleanedLines = new Vector<String>(1,1); 
-		for( int line = 0; line < inStringArray.size(); line++ )
-		{
-			String temp = null; 
-			for( int word = 0; word < blackListedWords.size(); word++ )
-			{
-				String stringToClean = null; 
-				if( temp == null)
-				{
-				    stringToClean = inStringArray.elementAt(line);
-				}
-				else
-				{
-					stringToClean = temp;
-				}
-				String test = blackListedWords.elementAt(word);
-				temp = stringToClean.replaceAll("\\b"+test+"\\b", "");
-				temp = temp.replaceAll("  ", "");
-				temp = temp.trim(); 
-			}
-			cleanedLines.add(temp);
-		}
-		return cleanedLines;
 	}
 	
 	static private String[] doShift( String aString )
@@ -217,6 +214,12 @@ public class Traditional
 		{
 			System.out.println( sortedLines.get(i));
 		}
+	}
+	
+	static private void writeConfirmation()
+	{
+		System.out.println("");
+		System.out.println("Thank you for using the KWIC Program");
 	}
 }
 
