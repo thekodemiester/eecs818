@@ -26,7 +26,7 @@ public class Traditional
 		{	
 			Vector<String> trivialWords = defineTrivialWords();
 			Vector<String> inputLines = new Vector<String>(1,1);
-			if (obtainInput(inputLines))
+			while (obtainInput(inputLines))
 			{
 				Vector<String> cleanedLines = cleanLines(inputLines, trivialWords);
 				Vector<String> shiftedLines = shiftLines(cleanedLines);
