@@ -77,6 +77,7 @@ public class ObjectOriented
 						{
 							VectoredStringSorter aSorter = new VectoredStringSorter( shiftedLines );
 							Vector<String> sortedLines = aSorter.doSort();
+							System.out.println( "" );
 							for( int i = 0; i < sortedLines.size(); i++) 
 							{
 								System.out.println( sortedLines.get(i));

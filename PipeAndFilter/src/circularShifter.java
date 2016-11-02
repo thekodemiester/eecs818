@@ -77,21 +77,21 @@ public class circularShifter
 	{
 	    int wordCount = 0;
 
-	    boolean word = false;
+	    boolean isWord = false;
 	    int stringLength = aString.length() - 1;
 
 	    for (int i = 0; i < aString.length(); i++) 
 	    {
-	        if ( Character.isLetter(aString.charAt(i)) && i != stringLength ) 
+	    	if ( !aString.substring(i, i+1).equals(" ") && i != stringLength ) 
 	        {
-	            word = true;
+	        	isWord = true;
 	        } 
-	        else if ( !Character.isLetter(aString.charAt(i)) && word ) 
+	        else if ( aString.substring(i, i+1).equals(" ") && isWord ) 
 	        {
 	            wordCount++;
-	            word = false;
+	            isWord = false;
 	        }
-	        else if ( Character.isLetter(aString.charAt(i)) && i == stringLength )
+	        else if ( !aString.substring(i, i+1).equals(" ") && i == stringLength )
 	        {
 	            wordCount++;
 	        }

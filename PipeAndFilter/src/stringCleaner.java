@@ -86,8 +86,8 @@ public class stringCleaner
 					stringToClean = temp;
 				}
 				String test = blackListedWords.elementAt(word);
-				temp = stringToClean.replaceAll("\\b"+test+"\\b", "");
-				temp = temp.replaceAll("  ", "");
+				temp = stringToClean.replaceAll("(?i)\\b"+test+"\\b", "");
+				temp = temp.replaceAll("  ", " ");
 				temp = temp.trim(); 
 			}
 			cleanedLines.add(temp);

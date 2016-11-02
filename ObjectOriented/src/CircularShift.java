@@ -52,16 +52,16 @@ public class CircularShift
 
 	    for (int i = 0; i < aString.length(); i++) 
 	    {
-	        if ( Character.isLetter(aString.charAt(i)) && i != stringLength ) 
+	    	if ( !aString.substring(i, i+1).equals(" ") && i != stringLength ) 
 	        {
 	            word = true;
 	        } 
-	        else if ( !Character.isLetter(aString.charAt(i)) && word ) 
+	        else if ( aString.substring(i, i+1).equals(" ") && word ) 
 	        {
 	            wordCount++;
 	            word = false;
 	        }
-	        else if ( Character.isLetter(aString.charAt(i)) && i == stringLength )
+	        else if ( !aString.substring(i, i+1).equals(" ") && i == stringLength )
 	        {
 	            wordCount++;
 	        }
