@@ -11,46 +11,31 @@
  * stringCleaner.java
  ********************************************************/
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Vector;
-
 
 public class stringCleaner
 {	
-	public static void main(String[] s)
-	{
-		BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
-		String inputString = null;
+	public String run(String input)
+	{		
+		String cleanedStrings = cleanStringOfTrivialWords( input );
 		
-		try 
-		{
-			inputString = inputReader.readLine();
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		String cleanedStrings = cleanStringOfTrivialWords( inputString );
-		
-		System.out.println( cleanedStrings );	
+		return cleanedStrings;	
 	}
 		
+	static private Vector<String> defineTrivialWords()
+	{
+		Vector<String> trivialWords = new Vector<String>(1,1);
+		trivialWords.add("a");
+		trivialWords.add("an");
+		trivialWords.add("as");
+		trivialWords.add("and");
+		trivialWords.add("the");
+		return trivialWords;
+	}
+	
 	static private String cleanStringOfTrivialWords( String aList )
 	{
-		Vector<String> blackListedWords = new Vector<String>(1,1);
-		 
-		blackListedWords.add("a");
-		blackListedWords.add("A");
-		blackListedWords.add("An");
-		blackListedWords.add("an");
-		blackListedWords.add("as");
-		blackListedWords.add("As");
-		blackListedWords.add("and");
-		blackListedWords.add("And");
-		blackListedWords.add("the");
-		blackListedWords.add("The");
+		Vector<String> trivialWords = defineTrivialWords();
 		
 		Vector<String> cleanedLines = new Vector<String>(1,1); 
 		
@@ -74,7 +59,7 @@ public class stringCleaner
 		for( int line = 0; line < listToClean.size(); line++ )
 		{
 			String temp = null; 
-			for( int word = 0; word < blackListedWords.size(); word++ )
+			for( int word = 0; word < trivialWords.size(); word++ )
 			{
 				String stringToClean = null; 
 				if( temp == null)
@@ -85,12 +70,15 @@ public class stringCleaner
 				{
 					stringToClean = temp;
 				}
-				String test = blackListedWords.elementAt(word);
+				String test = trivialWords.elementAt(word);
 				temp = stringToClean.replaceAll("(?i)\\b"+test+"\\b", "");
 				temp = temp.replaceAll("  ", " ");
 				temp = temp.trim(); 
 			}
-			cleanedLines.add(temp);
+			if (temp != "")
+			{
+				cleanedLines.add(temp);
+			}
 		}
 	    
 		String cleanedStrings = ""; 

@@ -11,31 +11,9 @@
  * circularShifter.java
  ********************************************************/
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class circularShifter
 {	
-	public static void main(String[] s)
-	{
-		BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
-		String inputString = null;
-		
-		try 
-		{
-			inputString = inputReader.readLine();
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		String allLinePermuntations = findAllLinePermuntations( inputString );
-		
-		System.out.println( allLinePermuntations );	
-	}
-	
-	static private String findAllLinePermuntations( String linesOfText )
+	public String run( String linesOfText )
 	{
 		String linePermuntations = "";
 		while( linesOfText != null )

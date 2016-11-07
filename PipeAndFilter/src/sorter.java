@@ -11,9 +11,6 @@
  * sorter.java
  ********************************************************/
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.Vector;
 
@@ -27,25 +24,7 @@ class IgnoreCaseComparator implements Comparator<String>
 
 public class sorter
 {	
-	public static void main(String[] s)
-	{
-		BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
-		String inputString = null;
-		
-		try 
-		{
-			inputString = inputReader.readLine();
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		String sortedStrings = sortListInAlphabeticalOrder( inputString );
-		
-		System.out.println( sortedStrings );	
-	}
-		
-	static private String sortListInAlphabeticalOrder( String aList )
+	public String run( String aList )
 	{
 		Vector<String> listToSort = new Vector<String>(); 
 		

@@ -11,25 +11,12 @@
  * output.java
  ********************************************************/
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class output
 {	
-	public static void main(String[] s)
+	public void run(String input)
 	{
-		BufferedReader inputReader = new BufferedReader( new InputStreamReader(System.in));
-		String inputText = null;
-		
-		try 
-		{
-			inputText = inputReader.readLine();
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		String outputText = inputText.replaceAll("&", "\n");
+		String outputText = input.replaceAll("&", "\n");
 		System.out.println( outputText );
+		return;
 	}
 }
